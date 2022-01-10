@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>sommeilsunset</title>
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+{% block head %}{% endblock %}
+</head>
+<body>
+<script type="text/javascript">
+function displayError(msg) {
+	var elmts = document.getElementsByTagName('p');
+	for (i=0; i < elmts.length; i++) {
+		if (elmts[i].class == "text-danger") {
+			elmts[i].innertext = msg;
+			return;
+		}
+	}
+}
+</script>
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<ul class="nav nav-tabs justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" id="Ldevice_info.html" href="/">Device</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="Lalarms.html" href="/alarms">Alarmes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="Llight.html" href="/light">Lumière</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="Lsensors.html" href="/probes">Sondes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="Lradio.html" href="/radio">Radio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="Lrelax.html" href="/relax">Relaxation</a>
+  </li>
+</ul>
+<div id="content">{%- if error_text != "" -%}
+<p class="text-danger">{{ error_text }}</p>
+{%- endif -%}
+</div>
+{% block content %}{% endblock %}</div>
+</body>
+</html>

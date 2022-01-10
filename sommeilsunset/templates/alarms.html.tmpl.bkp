@@ -1,0 +1,91 @@
+{% extends "base.html.tmpl" %}
+{% block head %}
+<link rel="stylesheet" href="static/css/dowPicker.css"></link>
+{% endblock %}
+{% block content %}
+<script type="text/javascript" src="static/js/timepicker.js"></script>
+wualm
+
+<div class="dowPicker">
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow1">
+		<label for="dow1">Lundi</label>
+	</div>
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow2">
+		<label for="dow2">Mardi</label>
+	</div>
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow3">
+		<label for="dow3">Mercredi</label>
+	</div>
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow4">
+		<label for="dow4">Jeudi</label>
+	</div>
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow5">
+		<label for="dow5">Vendredi</label>
+	</div>
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow6">
+		<label for="dow6">Samedi</label>
+	</div>
+	<div class="dowPickerOption">
+		<input type="checkbox" id="dow7">
+		<label for="dow7">Dimanche</label>
+	</div>
+</div>
+<div onclick="setClockMode(this)">
+  <input id="modeTimepicker" type="radio" name="mode" value="false">
+  <label for="modeTimepicker">Timepicker</label>
+</div>
+<div onclick="setVisibility(this)">
+  <input id="visibilityShow" type="radio" name="visibility" value="show" checked>
+  <label for="visibilityShow">Show</label>
+</div>
+<script type="text/javascript">
+'use strict';
+const picker=new Timepicker();
+const container=document.getElementById('timepicker');
+const pickerElm=picker.getElement();
+pickerElm.style.marginLeft='calc(50% - 120px)';
+pickerElm.style.marginTop='12px';
+container.appendChild(pickerElm);
+picker.setClockMode(true);
+picker.show();
+
+picker.onPicked=function(){
+  const timeStr=document.getElementById('timeString');
+  document.getElementById('visibilityHide').checked=true;
+  timeStr.value=picker.getTimeString();
+  timeStr.focus()
+};
+function pickTime(ev){
+  const docWidth=document.body.offsetWidth;
+  ev=ev||window.event;
+  let ml=ev.pageX-136;
+  if(ml+272>docWidth)ml=docWidth-272;
+  if(docWidth>992)ml-=220;
+  if(ml<0)ml=0;
+  pickerElm.style.marginLeft=ml+'px';
+  document.getElementById('modeTimepicker').checked=true;
+  document.getElementById('visibilityShow').checked=true;
+  picker.setClockMode(false);
+  picker.show();
+  (ev.target||ev.srcElement).blur()
+}
+function setClockMode(el){
+  el.children[0].checked=true;
+  picker.setClockMode(el.children[0].value=='true')
+}
+function setVisibility(el){
+  el.children[0].checked=true;
+  el.children[0].value=='show'?picker.show():picker.hide()
+}
+</script>
+<div id="timepicker">
+  <label for="timeString">Picked time</label>
+	<input id="timestring" onclick="pickTime(event)" type="text">
+</div>
+{% endblock %}

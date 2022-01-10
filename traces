@@ -1,0 +1,33 @@
+~/ $ ./somneo GET lgt
+~/ $ ./somneo GET wutim
+{"yrltm":2017,"moltm":1,"dtltm":7,"hrltm":11,"miltm":22,"scltm":50,"daynm":6}~/ $ ./somneo GET wualm
+{"snztm":9,"aenvs":{},"aalms":{},"prfsh":0}~/ $ ./somneo GET wudsk
+{"onoff":false,"curve":18,"durat":30,"ctype":0,"sndtp":0,"snddv":"off","sndch":"","sndlv":12,"sndss":0}~/ $ ./somneo GET wufmp
+~/ $ ./somneo GET wufmr
+{"fmfrq":"87.80","fmcmd":"set","fmsts":false,"fmspc":100,"prstn":1,"chtot":5}~/ $
+~/ $ ./somneo GET wulgt
+{"ltlvl":10,"onoff":false,"tempy":false,"ctype":0,"ngtlt":false,"wucrv":[],"pwmon":false,"pwmvs":[0,0,0,0,0,0],"diman":0}~/ $ ./somneo GET wulgt
+{"ltlvl":10,"onoff":false,"tempy":false,"ctype":0,"ngtlt":true,"wucrv":[],"pwmon":false,"pwmvs":[0,0,0,0,0,0],"diman":0}~/ $ ./somneo GET wumem
+{"mutyp":"mp3","mutot":0,"muusa":0,"muuse":[1,3000]}~/ $ ./somneo GET wumus
+{"mutyp":0,"muind":0}~/ $ ./somneo GET wungt
+{"ntstr":"","ntend":"07:00","ntlen":"07:00","night":false,"gdngt":false,"gdday":false,"tg2bd":"2017-01-07T07:14:30+00:00","tendb":"2017-01-07T07:14:31+00:00"}~/ $ ./somneo GET wuply
+{"onoff":false,"tempy":false,"sdvol":8,"sndss":0,"snddv":"off","sndch":"1"}~/ $
+~/ $ ./somneo GET wurlx
+{"durat":10,"onoff":false,"maxpr":7,"progr":1,"rtype":0,"intny":20,"sndlv":12,"sndss":0,"rlbpm":[4,5,6,7,8,9,10],"pause":[2000,2000,2000,2000,1000,1000,1000]}~/ $
+~/ $ ./somneo GET wusnd
+{"sdvol":8,"softst":0,"chifn":0,"softst":false}~/ $
+~/ $ ./somneo GET wusrd
+{"mslux":70.0,"mstmp":21.7,"msrhu":38.9,"mssnd":25,"avlux":65.7,"avtmp":21.5,"avhum":37.7,"avsnd":25,"enscr":0}~/ $
+~/ $ ./somneo GET wutmr
+{"stime":"2017-01-07T11:26:32+00:00","rlxmn":0,"rlxsc":0,"dskmn":0,"dsksc":0}~/ $
+~/ $ ./somneo GET wutms
+{"fmthr":true,"fmtwk":false,"tmupd":0,"tzhrm":[0,0],"dstwu":0,"tmsrc":"dis","tmsyn":"","tmser":"","locat":""}~/ $
+
+~//git/somneo_settings $ ./somneo GET wualm/aenvs
+{"prfen":[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"prfvs":[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"pwrsv":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}~//git/somneo_settings $
+~//git/somneo_settings $ ./somneo GET wualm/aalms
+{"ayear":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"amnth":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"alday":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"daynm":[254,254,254,254,254,254,254,254,254,254,254,254,254,254,254,254],"almhr":[7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7],"almmn":[10,20,30,30,30,30,30,30,30,30,30,30,30,30,30,30]}~//git/somneo_settings $
+~//git/somneo_settings $
+
+wualm/prfwu
+b'{"prfnr":1,"prfen":false,"prfvs":true,"pname":"","ayear":0,"amnth":0,"alday":0,"daynm":254,"almhr":7,"almmn":0,"curve":15,"durat":10,"ctype":0,"snddv":"wus","sndch":"6","sndlv":6,"sndss":0,"pwrsz":0,"pszhr":0,"pszmn":0}'

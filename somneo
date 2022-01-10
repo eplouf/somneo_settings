@@ -1,0 +1,4 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+[ -z "$2" ] && { echo need method and uri; exit 1; }
+curl -k -H 'Content-Type: application/json' -X $1  https://192.168.1.1/di/v1/products/1/$2

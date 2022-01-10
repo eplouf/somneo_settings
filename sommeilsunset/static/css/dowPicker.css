@@ -1,0 +1,21 @@
+.dowPicker {
+	width: 300px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 40px 0 0 0;
+	.dowPickerOption {
+		display: inline-block;
+		input[type=checkbox] {
+			display: none;
+		}
+		label {
+			font-size: 50px;
+			color: #a7a7a7;
+			cursor: pointer;
+		}
+		input[type=checkbox]:checked ~ label {
+			color: #464646;
+			font-weight: 500;
+		}
+	}
+}

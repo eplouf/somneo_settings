@@ -1,0 +1,11 @@
+Need is to be able to set alarms.
+From the tablet, which have no GPS, so can't use the regular application.
+
+Use termux:boot to launch a python flask + bootstrapjs web app
+Let use the navigator to reach the page at http://localhost:1337/
+
+The page should be simple, possibly with tabs?
+
+One page get settings, and display them all, letting the user
+modify anything, and click on a "Save" button.
+

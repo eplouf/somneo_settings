@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="static/css/dowPicker.css"></link>
+{% endblock %}
+{% block content %}
+<script type="text/javascript">
+var page = document.getElementById("L{{self._TemplateReference__context.name}}");
+page.classList.add("active");
+</script>
+<script type="text/javascript" src="static/js/timepicker.js"></script>
+wualm
+<p>
+{{ alarms }}
+{{ alarms_l }}
+<div class="container">
+  <div class="row align-items-center g-0">
+    <div class="row align-items-center g-0">
+      <div class="col g-2">Alarm #1</div>
+      <div class="col g-2">Alarm #2</div>
+    </div>
+    <div class="col dowPicker" id="datepicker1">
+{%- for alarm in alarms1['daynm'] -%}
+{%- set weekday = alarm[0] -%}
+{%- set enabled = alarm[1] -%}
+      <div class="dowPickerOption">
+{%- if enabled -%}
+		<input class="form-check-input" type="checkbox" checked=True id="1_{{ weekday }}">
+{%- else %}
+		<input class="form-check-input" type="checkbox" id="1_{{ weekday }}">
+{%- endif -%}
+		<label class="form-check-label" for="1_{{ weekday }}">{{ weekday }}</label>
+      </div>
+{%- endfor -%}
+    </div>
+    <div class="col" id="clock"></div>
+
+    <div class="col dowPicker" id="datepicker2">
+{%- for alarm in alarms2['daynm'] -%}
+{%- set weekday = alarm[0] -%}
+{%- set enabled = alarm[1] -%}
+      <div class="dowPickerOption">
+{%- if enabled -%}
+		<input class="form-check-input" type="checkbox" checked=True id="2_{{ weekday }}">
+{%- else -%}
+		<input class="form-check-input" type="checkbox" id="2_{{ weekday }}">
+{%- endif -%}
+		<label class="form-check-label" for="2_{{ weekday }}">{{ weekday }}</label>
+      </div>
+{%- endfor -%}
+    </div>
+    <div class="col" id="clock2"></div>
+
+  <div class="row align-items-center g-0" id="changeAlarms">
+      <input class="col btn btn-outline-success" type="button" id="validate1" value="Sauver #1" onclick="pickedTime1()">
+      <input class="col btn btn-outline-success" type="button" id="validate2" value="Sauver #2" onclick="pickedTime2()">
+  </div>
+  <div class="row align-items-center g-0" id="refreshAlarms">
+      <input class="col btn btn-outline-primary" type="button" id="validateall" value="Sauver les alarmes" onclick="pickedTime()">
+      <input class="col btn btn-outline-info" type="button" id="refresh" value="Rafraichir" onclick="refresh()">
+  </div>
+</div>
+<script type="text/javascript">
+var clock = new Timepicker();
+document.getElementById('clock').appendChild(clock.getElement());
+clock.show();
+
+clock.callback = function() {
+  clock.show(); // prevent the widget from being closed
+};
+
+var clock2 = new Timepicker();
+document.getElementById('clock2').appendChild(clock2.getElement());
+clock2.show();
+
+
+var i;
+var xbtn = document.getElementsByTagName('button');
+for (i = 0; i < xbtn.length; i++) {
+  if (xbtn[i].innerText == "Pick") {
+    xbtn[i].display = "none";
+    xbtn[i].style.visibility = "hidden";
+  }
+} 
+</script>
+<script type="text/javascript">
+const btn1 = document.getElementById("validate1");
+const btn2 = document.getElementById("validate2");
+const btn = document.getElementById("validateall");
+const btnrfsh = document.getElementById("refresh");
+
+btn1.addEventListener('click', function() {
+  var pickedTxt1 = document.getElementById('clock').innerText;
+  alert(pickedTxt1);
+  PostData({'clock1': pickedTxt1});
+}
+
+function PostData(data) {
+  var XHR = new XMLHttpRequest();
+  var urlEncodedData = "";
+  var urlEncodedDataPairs = [];
+  var name;
+
+  for(name in data) {
+    urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+  }
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+  XHR.addEventListener('load', function(event) {
+    alert("Saved");
+  }
+  XHR.addEventListener('error', function(event) {
+    alert("error!");
+  }
+  XHR.open('POST', 'http://localhost:8080/alarms');
+  XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  XHR.send(urlEncodedData);
+}
+
+function refresh() {
+  window.location.href = "http://localhost:8080/alarms";
+}
+function pickedTime() {
+  var pickedTxt1 = document.getElementById('clock').innerText;
+  var pickedTxt2 = document.getElementById('clock2').innerText;
+  alert(pickedTxt1 + " " + pickedTxt2);
+  //PostData({'clock1': pickedTxt1});
+  //PostData({'clock2': pickedTxt2});
+}
+function pickedTime1() {
+  var pickedTxt1 = document.getElementById('clock').innerText;
+  alert(pickedTxt1);
+  //PostData({'clock1': pickedTxt1});
+}
+function pickedTime2() {
+  var pickedTxt2 = document.getElementById('clock2').innerText;
+  alert(pickedTxt2);
+  //PostData({'clock2': pickedTxt2});
+}
+
+
+function checkDay(day, root, prefix) {
+    var docs = document.getElementById(root);
+    for (doc in docs) {
+         if (prefix in doc) {
+             doc.check = True
+         }
+    }
+}
+var alarms = {{ alarms }};
+// first clock
+function clock1() {
+    for day in alarms {
+        checkDay(day, 'datepicker1', 'day');
+    }
+}
+function clock2() {
+    for day in alarms {
+        checkDay(day, 'datepicker2', 'day');
+    }
+}
+
+</script>
+{% endblock %}

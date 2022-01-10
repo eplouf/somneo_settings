@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block content %}
+<script type="text/javascript">
+var page = document.getElementById("L{{self._TemplateReference__context.name}}");
+page.classList.add("active");
+</script>
+<script type="text/javascript" src="static/js/Chart.js"></script>
+<div class="container">
+  <div class="row align-items-center g-0">
+   <div class="col g-2">
+température: {{ temperature }}
+   </div>
+   <div class="col g-2">
+humidité: {{ humidity }}
+   </div>
+  </div>
+  <div class="row align-items-center g-0">
+   <div class="col g-2">
+luminosité: {{ luminance }}
+   </div>
+   <div class="col g-2">
+bruit: {{ noise }}
+   </div>
+  </div>
+ <canvas id="probesChart" ></canvas>
+ <div class="row align-items-center g-0" id="enableInt">
+  <input class="col btn btn-outline-primary" type="button" id="validateall" value="Activer la mise a jour du graph" onclick="enableInterval()">
+  <input class="col btn btn-outline-info" type="button" id="disableInt" value="Desactiver la mise a jour du graph" onclick="disableInterval()">
+  <a id="download" download="sondes.jpg" href="" class="col btn btn-outline-warning">sauver l'image</a>
+ </div>
+</div>
+<script type="text/javascript">
+document.getElementById("download").addEventListener('click', function() {
+  var urlbase64jpg = document.getElementById("probesChart").toDataURL('image/jpeg');
+  var a = document.getElementById("download");
+  a.href = urlbase64jpg;
+});
+
+var RealGraph;
+
+var ctx = document.getElementById("probesChart").getContext("2d");
+var options ={
+};
+var data = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: "température",
+            borderColor: "#f0f",
+            fill: false,
+            data: [],
+		    yAxisID: "regular",
+        },{
+            label: "humidité",
+            borderColor: "#00f",
+            fill: false,
+            data: [],
+		    yAxisID: "regular",
+        },{
+            label: "luminosité",
+            borderColor: "#0f0",
+            fill: false,
+            data: [],
+		    yAxisID: "luminance",
+        },{
+            label: "bruit",
+            borderColor: "#f00",
+            fill: false,
+            data: [],
+		    yAxisID: "regular",
+        }]
+    },
+    options: {
+        responsive: true,
+        showTooltips: true,
+        scaleOverride: true,
+        scaleStartValue: 0,
+        scales: {
+		    yAxes: [{
+				id: "regular",
+				type: "linear",
+				position: "left",
+		    }, {
+				id: "luminance",
+				type: "linear",
+				position: "right",
+				scaleLabel: {
+				     display: true,
+				     labelString: "luminosité",
+				},
+		    }],
+            xAxes: [{
+                display: true
+            }]
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+    }
+};
+var myLineChart = new Chart(ctx, data);
+var maxpoints = 120;
+
+function addData(chart, label, data) {
+    chart.data.datasets.forEach((dataset) => {
+        if (dataset.label == label) {
+            if (dataset.data.length > maxpoints) {
+                dataset.data.shift()
+            }
+            dataset.data.push(data);
+         }
+    });
+    chart.update();
+}
+function setData(newdata) {
+  addData(myLineChart, "température", newdata['temperature']);
+  addData(myLineChart, "humidité", newdata['humidity']);
+  addData(myLineChart, "luminosité", newdata['luminance']);
+  addData(myLineChart, "bruit", newdata['noise']);
+  var now = new Date();
+  var heure = now.getHours();
+  var minute = now.getMinutes();
+  var seconde = now.getSeconds();
+  nowstr = heure + ':' + minute + ':' + seconde
+  if (myLineChart.data.labels.length > maxpoints) {
+    myLineChart.data.labels.shift();
+  }
+  myLineChart.data.labels.push(nowstr);
+}
+function getProbes() {
+  var xhr = new XMLHttpRequest();
+  /* xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      console.log(xhr.response); // Par défault une DOMString
+    }
+  }; */
+  xhr.onload = function () {
+    console.log('DONE: ', xhr.status);
+    if ( xhr.status != 200 ) {
+      displayError("issues polling probes");
+    } else {
+      setData(JSON.parse(xhr.response));
+    }
+  };
+  xhr.open("GET", 'http://localhost:8080/api/probes', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send('');
+}
+
+function enableInterval() {
+  RealGraph = setInterval(getProbes, 5000);
+}
+enableInterval();
+function disableInterval() {
+  clearInterval(RealGraph);
+  getProbes();
+}
+</script>
+{% endblock %}
